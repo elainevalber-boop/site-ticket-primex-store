@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Ticket - Suporte</title>
+</head>
+
+<body style="background:#111;color:white;font-family:Arial;text-align:center;padding:40px">
+
+<h1>🎫 Abrir Ticket</h1>
+
+<form id="formTicket">
+  <input type="text" id="nome" placeholder="Seu nome" required><br><br>
+  <input type="text" id="assunto" placeholder="Assunto" required><br><br>
+
+  <textarea id="mensagem" placeholder="Explique seu problema" rows="5" required></textarea><br><br>
+
+  <button type="submit">Enviar</button>
+</form>
+
+<p id="status"></p>
+
+<script>
+const webhook = "https://discord.com/api/webhooks/1473053926915051725/lL-WFDceUjE2bmUT8Q437cBWx7zp5sSB86wP-UaMTZDf1S5BCtq6xCNFkt-eJPMMYTCC";
+
+document.getElementById("formTicket").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const nome = document.getElementById("nome").value;
+  const assunto = document.getElementById("assunto").value;
+  const msg = document.getElementById("mensagem").value;
+
+  fetch(webhook, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      content: `📩 **Novo Ticket**\n👤 Nome: ${nome}\n📌 Assunto: ${assunto}\n💬 Mensagem: ${msg}`
+    })
+  }).then(()=>{
+    document.getElementById("status").innerText = "✅ Ticket enviado!";
+  }).catch(()=>{
+    document.getElementById("status").innerText = "❌ Erro ao enviar.";
+  });
+});
+</script>
+
+</body>
+</html>
